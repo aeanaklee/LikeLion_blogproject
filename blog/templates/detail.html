@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    <style>
+        * {padding: 0; margin: 0;}
+        body {background-color: rgb(243, 243, 243);}
+        #wrap {padding: 30px;}
+    </style>
+</head>
+<body>
+    <div id = "wrap">
+        <div class="alert alert-primary" role="alert">
+            <h2>{{blog.title}}</h2>
+        </div>
+        <p>날짜: {{blog.pub_date}}</p>
+        <div class="card border-light mb-3" 
+        style="max-width: 100%; 
+        padding: 10px;
+        font-size: 1.2em;">
+            <p class = "main">{{blog.body}}</p>
+            <p style="color: purple;">
+                {% for hashtag in hashtags.all %}
+                #{{hashtag}}
+                {% endfor %}
+            </p>
+        </div>
+        <a class="btn btn-outline-info" href="{% url 'home'%}">홈으로 돌아가기</a>
+        <a class="btn btn-outline-warning" href="{% url 'edit' blog.id %}">수정하기</a>
+        <a class="btn btn-outline-danger" href="{% url 'delete' blog.id %}">삭제하기</a>
+
+        <hr>
+        {% for comment in blog.comments.all %}
+            <div class = "comment">
+                <div class = "date"> {{comment.created_at }}</div>
+                <strong> {{comment.author_name }}</strong>
+                <p> {{ comment.comment_text|linebreaks }}</p>
+            </div>
+        <hr>
+        {% empty %}
+            <p>No comments here yet :(</p>
+        <hr>
+        {% endfor %}
+        <a class="btn btn-outline-secondary" href="{% url 'add_comment_to_post' blog.id %}">댓글달기</a>
+    </div>
+    <br>
+
+
+    <!-- 댓글 추가 -->
+
+</body>
+</html>
